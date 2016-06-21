@@ -9,7 +9,7 @@ package estruturas;
  * Representa uma ocorrência na pesquisa inicial para a construção da Árvore de Huffman
  * @author demetrius
  */
-public class Occurrence<T> {
+public class Occurrence<T> implements Comparable<Occurrence<T>>{
     
     private T value;
     private int numOccurrences;
@@ -30,5 +30,22 @@ public class Occurrence<T> {
     public int getNumOccurrences() {
         return numOccurrences;
     }
+
+    @Override
+    public int compareTo(Occurrence<T> t) {
+        if(this.getNumOccurrences() > t.getNumOccurrences())
+            return 1;
+        else if(this.getNumOccurrences() < t.getNumOccurrences())
+            return -1;
+        else
+            return 0;
+    }
+
+    @Override
+    public String toString() {
+        return value + ": " + numOccurrences;
+    }
+    
+    
     
 }

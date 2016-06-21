@@ -3,10 +3,10 @@
  */
 package compactacao;
 
-import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import estruturas.Occurrence;
+import estruturas.Vector;
 import utilidades.Console;
+import utilidades.Sorting;
 
 /**
  *
@@ -19,10 +19,16 @@ public class Compactacao {
      */
     public static void main(String[] args) {
         
-        String path = "teste.txt";
-        Arquivo entrada = new Arquivo(path);
-        entrada.ler();
-        Console.println(entrada);
+        String teste = "Demétrius Aron dos Santos Junior";
+        
+        Compressor c = new Compressor(teste);
+        
+        c.gerarOcorrencias();
+        
+        Vector<Occurrence<Character>> ov = c.getOcorrencias();
+        
+        for( Occurrence<Character> oc : ov )
+            Console.println(oc);
         
     }
     
