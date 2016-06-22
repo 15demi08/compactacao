@@ -25,9 +25,9 @@ public class Compactacao {
         
         c.gerarOcorrencias();
         
-        Vector<Occurrence<Character>> ov = c.getOcorrencias();
+        Vector<Occurrence> ov = c.getOcorrencias();
         
-        for( Occurrence<Character> oc : ov )
+        for( Occurrence oc : ov )
             Console.println(oc);
         
     }

@@ -8,6 +8,9 @@ package compactacao;
 import estruturas.BinarySearchTree;
 import estruturas.Occurrence;
 import estruturas.Vector;
+import java.util.Comparator;
+import utilidades.Console;
+import utilidades.Sorting;
 
 /**
  *
@@ -23,13 +26,13 @@ public class Compressor {
     /**
      * Armazena o número de ocorrencias de cada caractere presente na String fornecida
      */
-    private Vector<Occurrence<Character>> ocorrencias;
+    private Vector<Occurrence> ocorrencias;
     
     /**
      * Arvore na qual serão armazenadas as ocorrencias dos caracteres, a fim de executar
      * o Código de Huffman
      */
-    private BinarySearchTree<Occurrence<Character>> charTree;
+    private BinarySearchTree<Occurrence> charTree;
 
     public Compressor(String dados) {
         this.dados = dados;
@@ -40,7 +43,7 @@ public class Compressor {
         return dados;
     }
 
-    public Vector<Occurrence<Character>> getOcorrencias() {
+    public Vector<Occurrence> getOcorrencias() {
         return ocorrencias;
     }
 
@@ -60,15 +63,15 @@ public class Compressor {
 
             if (ocorrencias.size() == 0) {
                 
-                ocorrencias.append(new Occurrence<>(c));
+                ocorrencias.append(new Occurrence(c));
                 
             } else {
                 
                 boolean found = false;
                 
-                for( Occurrence<Character> oc : ocorrencias ){
+                for( Occurrence oc : ocorrencias ){
                     
-                    if( oc.getValue().equals(c) ){
+                    if( oc.getValue() == c ){
                         
                         oc.incrementCount();
                         found = true;
@@ -79,11 +82,39 @@ public class Compressor {
                 }
                 
                 if( !found )
-                    ocorrencias.append(new Occurrence<>(c));
+                    ocorrencias.append(new Occurrence(c));
 
             }
 
         }
+        
+        ordenarOcorrencias();
+        
+    }
+    
+    /**
+     * Ordena as ocorrencias dos caracteres da String fonte para esta compactação,
+     * em ordem crescente.
+     */
+    private void ordenarOcorrencias(){
+        
+        Occurrence[] array = ocorrencias.toArray(new Occurrence[ocorrencias.size()]);
+        
+        Comparator<Occurrence> cmp = (Occurrence t, Occurrence t1) -> t.compareTo(t1);
+        
+        long ops = Sorting.insertionSort(array, cmp);
+        
+        Console.println("ops: " + String.valueOf(ops));
+        
+        ocorrencias = new Vector<>(array);
+        
+    }
+    
+    /**
+     * Usa as ocorrencias ordenadas para criar uma arvore de geração de códigos
+     */
+    private void gerarArvoreHuffman(){
+        
         
     }
 

@@ -22,7 +22,7 @@ class Arquivo {
     
     private String path;
     private String dados;
-    private Vector<Occurrence<Character>> ocorrencias;
+    private Vector<Occurrence> ocorrencias;
 
     public Arquivo(String path){
         

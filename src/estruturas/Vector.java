@@ -53,6 +53,12 @@ public class Vector<T> implements interfaces.Iterable<T> {
     private Object[] data = new Object[16];
     private int count = 0;
 
+    public Vector(){}
+    
+    public Vector( T[] array ) {
+        fromArray(array);
+    }
+
     /**
      * Inserts a new element to the vector at the specified index. The index
      * must be between 0 and the number of elements already stored.
@@ -142,5 +148,27 @@ public class Vector<T> implements interfaces.Iterable<T> {
     @Override
     public Iterator<T> iterator() {
         return new VectorIterator<>(this);
+    }
+    
+    /**
+     * Returns an array of T with the items from this Vector
+     * @return 
+     */
+    public <T> T[] toArray( T[] array ){
+        
+        System.arraycopy(data, 0, array, 0, size());
+        
+        return (T[])(array);
+    }
+    
+    /**
+     * Populates this Vector with the items from the specified array
+     * @param array 
+     */
+    private void fromArray( T[] array ){
+        
+        for( T obj : array )
+            this.append(obj);
+        
     }
 }

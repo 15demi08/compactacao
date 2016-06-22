@@ -9,12 +9,16 @@ package estruturas;
  * Representa uma ocorrência na pesquisa inicial para a construção da Árvore de Huffman
  * @author demetrius
  */
-public class Occurrence<T> implements Comparable<Occurrence<T>>{
+public class Occurrence implements Comparable<Occurrence>{
     
-    private T value;
+    private char value;
     private int numOccurrences;
 
-    public Occurrence(T value) {
+    public Occurrence(int numOccurrences) {
+        this.numOccurrences = numOccurrences;
+    }
+
+    public Occurrence(char value) {
         this.value = value;
         this.numOccurrences = 1;
     }
@@ -23,7 +27,7 @@ public class Occurrence<T> implements Comparable<Occurrence<T>>{
         this.numOccurrences++;
     }
 
-    public T getValue() {
+    public char getValue() {
         return value;
     }
 
@@ -32,20 +36,13 @@ public class Occurrence<T> implements Comparable<Occurrence<T>>{
     }
 
     @Override
-    public int compareTo(Occurrence<T> t) {
-        if(this.getNumOccurrences() > t.getNumOccurrences())
-            return 1;
-        else if(this.getNumOccurrences() < t.getNumOccurrences())
-            return -1;
-        else
-            return 0;
+    public int compareTo(Occurrence o) {
+        return this.numOccurrences - o.numOccurrences;
     }
 
     @Override
     public String toString() {
         return value + ": " + numOccurrences;
-    }
-    
-    
+    }  
     
 }
