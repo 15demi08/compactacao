@@ -5,7 +5,7 @@
  */
 package compactacao;
 
-import estruturas.Occurrence;
+import estruturas.HuffmanNode;
 import estruturas.Vector;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -22,7 +22,7 @@ class Arquivo {
     
     private String path;
     private String dados;
-    private Vector<Occurrence> ocorrencias;
+    private Vector<HuffmanNode> ocorrencias;
 
     public Arquivo(String path){
         

@@ -5,11 +5,10 @@
  */
 package compactacao;
 
-import estruturas.BinarySearchTree;
-import estruturas.Occurrence;
+import estruturas.HuffmanNode;
+import estruturas.HuffmanTree;
 import estruturas.Vector;
 import java.util.Comparator;
-import utilidades.Console;
 import utilidades.Sorting;
 
 /**
@@ -22,98 +21,134 @@ public class Compressor {
      * A String com o texto a ser compactado
      */
     private String dados;
-    
+
     /**
-     * Armazena o número de ocorrencias de cada caractere presente na String fornecida
+     * Armazena o número de occurrences de cada caractere presente na String
+     * fornecida
      */
-    private Vector<Occurrence> ocorrencias;
-    
+    private Vector<HuffmanNode> occurrences;
+
     /**
-     * Arvore na qual serão armazenadas as ocorrencias dos caracteres, a fim de executar
-     * o Código de Huffman
+     * Arvore na qual serão armazenadas as occurrences dos caracteres, a fim de
+     * executar o Código de Huffman
      */
-    private BinarySearchTree<Occurrence> charTree;
+    private HuffmanTree charTree;
 
     public Compressor(String dados) {
         this.dados = dados;
-        this.ocorrencias = new Vector<>();
+        this.occurrences = new Vector<>();
+        this.charTree = new HuffmanTree();
+    }
+
+    public void printTree() {
+        charTree.print();
     }
 
     public String getDados() {
         return dados;
     }
 
-    public Vector<Occurrence> getOcorrencias() {
-        return ocorrencias;
+    public Vector<HuffmanNode> getOccurrences() {
+        return occurrences;
     }
 
     public void compactar() {
-
         
+        gerarOcorrencias();
+        
+        gerarArvoreHuffman();
 
     }
-    
+
     /**
-     * Analisa a String fornecida e gera um vetor contendo o número de ocorrencias
-     * de cada caractere nela presente (inclui espaços em branco).
+     * Analisa a String fornecida e gera um vetor contendo o número de
+     * occurrences de cada caractere nela presente (inclui espaços em branco).
      */
-    public void gerarOcorrencias(){
-        
+    private void gerarOcorrencias() {
+
         for (char c : dados.toCharArray()) {
 
-            if (ocorrencias.size() == 0) {
-                
-                ocorrencias.append(new Occurrence(c));
-                
+            if (occurrences.size() == 0) {
+
+                occurrences.append(new HuffmanNode(c));
+
             } else {
-                
+
                 boolean found = false;
-                
-                for( Occurrence oc : ocorrencias ){
-                    
-                    if( oc.getValue() == c ){
-                        
+
+                for (HuffmanNode oc : occurrences) {
+
+                    if (oc.getValue() == c) {
+
                         oc.incrementCount();
                         found = true;
                         break;
-                        
+
                     }
-                    
+
                 }
-                
-                if( !found )
-                    ocorrencias.append(new Occurrence(c));
+
+                if (!found) {
+                    occurrences.append(new HuffmanNode(c));
+                }
 
             }
 
         }
-        
+
         ordenarOcorrencias();
-        
+
     }
-    
+
     /**
-     * Ordena as ocorrencias dos caracteres da String fonte para esta compactação,
-     * em ordem crescente.
+     * Ordena as occurrences dos caracteres da String fonte para esta
+     * compactação, em ordem crescente.
      */
-    private void ordenarOcorrencias(){
-        
-        Occurrence[] array = ocorrencias.toArray(new Occurrence[ocorrencias.size()]);
-        
-        Comparator<Occurrence> cmp = (Occurrence t, Occurrence t1) -> t.compareTo(t1);
-        
+    private void ordenarOcorrencias() {
+
+        HuffmanNode[] array = occurrences.toArray(new HuffmanNode[occurrences.size()]);
+
+        Comparator<HuffmanNode> cmp = (HuffmanNode t, HuffmanNode t1) -> t.compareTo(t1);
+
         long ops = Sorting.insertionSort(array, cmp);
-        
-        Console.println("ops: " + String.valueOf(ops));
-        
-        ocorrencias = new Vector<>(array);
-        
+
+        //Console.println("ops: " + String.valueOf(ops));
+
+        occurrences = new Vector<>(array);
+
+    }
+
+    /**
+     * Usa as occurrences ordenadas para criar uma arvore de geração de códigos
+     */
+    private void gerarArvoreHuffman() {
+
+        switch (occurrences.size()) {
+            case 2: {
+                HuffmanNode child0 = occurrences.pop(0);
+                HuffmanNode child1 = occurrences.pop(0);
+                HuffmanNode parent = new HuffmanNode(child0.getNumOccurrences() + child1.getNumOccurrences(), child0, child1);
+                charTree.setRoot(parent);
+                break;
+            }
+            case 1:
+                charTree.setRoot(occurrences.pop(0));
+                break;
+            default: {
+                HuffmanNode child0 = occurrences.pop(0);
+                HuffmanNode child1 = occurrences.pop(0);
+                HuffmanNode parent = new HuffmanNode(child0.getNumOccurrences() + child1.getNumOccurrences(), child0, child1);
+                occurrences.append(parent);
+                ordenarOcorrencias();
+                gerarArvoreHuffman();
+                break;
+            }
+        }
+
     }
     
-    /**
-     * Usa as ocorrencias ordenadas para criar uma arvore de geração de códigos
-     */
-    private void gerarArvoreHuffman(){
+    private void geraCodigoChar( char c ){
+        
         
         
     }

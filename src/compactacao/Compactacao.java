@@ -3,10 +3,7 @@
  */
 package compactacao;
 
-import estruturas.Occurrence;
-import estruturas.Vector;
 import utilidades.Console;
-import utilidades.Sorting;
 
 /**
  *
@@ -18,18 +15,34 @@ public class Compactacao {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+
+        String teste = "divisibilidade";
         
-        String teste = "Demétrius Aron dos Santos Junior";
+        //Console.println(toBinaryString(teste));
         
         Compressor c = new Compressor(teste);
         
-        c.gerarOcorrencias();
+        c.compactar();
         
-        Vector<Occurrence> ov = c.getOcorrencias();
-        
-        for( Occurrence oc : ov )
-            Console.println(oc);
-        
+        c.printTree();
+
+
     }
-    
+
+    public static String toBinaryString(String string) {
+
+        StringBuilder sb = new StringBuilder();
+
+        char[] chars = string.toCharArray();
+
+        for (Character c : chars) {
+
+            sb.append(Integer.toBinaryString(c));
+
+        }
+
+        return sb.toString();
+
+    }
+
 }

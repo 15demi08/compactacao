@@ -100,6 +100,21 @@ public class Vector<T> implements interfaces.Iterable<T> {
         count--;
         data[count] = null;
     }
+    
+    /**
+     * Removes the element at index and returns it
+     * @param index
+     * @return 
+     */
+    public T pop( int index ){
+        
+        T tmp = get(index);
+        
+        remove(index);
+        
+        return tmp;
+        
+    }
 
     /**
      * Append a value to the end of the data.
