@@ -16,15 +16,17 @@ public class Compactacao {
      */
     public static void main(String[] args) {
 
-        String teste = "divisibilidade";
+        String teste = "teste";
         
-        //Console.println(toBinaryString(teste));
+        Console.println(toBinaryString(teste));
         
         Compressor c = new Compressor(teste);
         
         c.compactar();
         
         c.printTree();
+        
+        c.printCodigos();
 
 
     }

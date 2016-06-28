@@ -5,10 +5,15 @@
  */
 package compactacao;
 
+import estruturas.DuplicateKeyException;
+import estruturas.Hashtable;
 import estruturas.HuffmanNode;
 import estruturas.HuffmanTree;
 import estruturas.Vector;
 import java.util.Comparator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import utilidades.Console;
 import utilidades.Sorting;
 
 /**
@@ -28,6 +33,10 @@ public class Compressor {
      */
     private Vector<HuffmanNode> occurrences;
 
+    private Vector<HuffmanNode> leafList;
+    
+    private Hashtable<Character, String> codigos;
+
     /**
      * Arvore na qual serão armazenadas as occurrences dos caracteres, a fim de
      * executar o Código de Huffman
@@ -38,10 +47,21 @@ public class Compressor {
         this.dados = dados;
         this.occurrences = new Vector<>();
         this.charTree = new HuffmanTree();
+        this.codigos = new Hashtable<>();
     }
 
     public void printTree() {
         charTree.print();
+    }
+    
+    public void printCodigos(){
+        
+        for( char c : codigos ){
+            
+            Console.println( c + ": " + codigos.get(c) );
+            
+        }
+        
     }
 
     public String getDados() {
@@ -53,10 +73,12 @@ public class Compressor {
     }
 
     public void compactar() {
-        
+
         gerarOcorrencias();
-        
+
         gerarArvoreHuffman();
+        
+        gerarCodigos();
 
     }
 
@@ -98,6 +120,8 @@ public class Compressor {
 
         ordenarOcorrencias();
 
+        leafList = occurrences.clonar();
+
     }
 
     /**
@@ -113,7 +137,6 @@ public class Compressor {
         long ops = Sorting.insertionSort(array, cmp);
 
         //Console.println("ops: " + String.valueOf(ops));
-
         occurrences = new Vector<>(array);
 
     }
@@ -146,11 +169,32 @@ public class Compressor {
         }
 
     }
-    
-    private void geraCodigoChar( char c ){
-        
-        
-        
+
+    private void gerarCodigos() {
+
+        for (HuffmanNode node : leafList) {
+
+            StringBuilder sb = new StringBuilder();
+
+            HuffmanNode tmp = node;
+
+            while (tmp != null) {
+
+                sb.append(tmp.getBit() ? "1" : "0");
+
+                tmp = node.getParent();
+
+            }
+
+            sb = sb.reverse();
+            
+            try {
+                codigos.put(node.getValue(), sb.toString());
+            } catch (DuplicateKeyException ex) {
+                Logger.getLogger(Compressor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
     }
 
 }

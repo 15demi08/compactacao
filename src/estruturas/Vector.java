@@ -186,4 +186,10 @@ public class Vector<T> implements interfaces.Iterable<T> {
             this.append(obj);
         
     }
+
+    public Vector<T> clonar() {
+        return new Vector<>((T[]) data);
+    }
+    
+    
 }

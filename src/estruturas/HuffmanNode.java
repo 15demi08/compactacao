@@ -13,17 +13,43 @@ public class HuffmanNode implements Comparable<HuffmanNode>{
     
     private char value;
     private int numOccurrences;
-    private HuffmanNode child0, child1;
+    private boolean bit;
+    private HuffmanNode child0, child1, parent;
 
     public HuffmanNode(int numOccurrences, HuffmanNode child0, HuffmanNode child1) {
         this.numOccurrences = numOccurrences;
         this.child0 = child0;
+        this.child0.setBit(false);
         this.child1 = child1;
+        this.child1.setBit(true);
+        
+        setParents();
     }
 
     public HuffmanNode(char value) {
         this.value = value;
         this.numOccurrences = 1;
+    }
+
+    private void setParents() {
+        this.child0.setParent(this);
+        this.child1.setParent(this);
+    }
+
+    public HuffmanNode getParent() {
+        return parent;
+    }
+
+    public void setParent(HuffmanNode parent) {
+        this.parent = parent;
+    }
+
+    public boolean getBit() {
+        return bit;
+    }
+
+    public void setBit(boolean bit) {
+        this.bit = bit;
     }
     
     public void incrementCount(){
@@ -32,15 +58,7 @@ public class HuffmanNode implements Comparable<HuffmanNode>{
 
     public char getValue() {
         return value;
-    }
-
-    public HuffmanNode getChild0() {
-        return child0;
-    }
-
-    public HuffmanNode getChild1() {
-        return child1;
-    }    
+    }  
 
     public int getNumOccurrences() {
         return numOccurrences;
