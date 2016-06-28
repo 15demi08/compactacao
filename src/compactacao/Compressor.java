@@ -52,7 +52,7 @@ public class Compressor {
 
     /**
      * Analisa a String fornecida e gera um vetor contendo o número de
-     * occurrences de cada caractere nela presente (inclui espaços em branco).
+     * ocorrências de cada caractere nela presente (inclui espaços em branco).
      */
     private void gerarOcorrencias() {
 
@@ -93,7 +93,7 @@ public class Compressor {
     }
 
     /**
-     * Ordena as occurrences dos caracteres da String fonte para esta
+     * Ordena as ocorrências dos caracteres da String fonte para esta
      * compactação, em ordem crescente.
      */
     private void ordenarOcorrencias() {
@@ -110,7 +110,7 @@ public class Compressor {
     }
 
     /**
-     * Usa as occurrences ordenadas para criar uma arvore de geração de códigos
+     * Usa as ocorrências ordenadas para criar uma arvore de geração de códigos
      */
     private void gerarArvoreHuffman() {
 
@@ -137,7 +137,10 @@ public class Compressor {
         }
 
     }
-
+    
+    /**
+     * Usa a árvore gerada para criar os códigos e colocá-los em uma HashTable
+     */
     private void gerarCodigos() {
 
         for (HuffmanNode node : leafList) {
@@ -170,6 +173,10 @@ public class Compressor {
         }
     }
     
+    /**
+     * Itera pelos caracteres da String original para, com eles, obter da HashTable 
+     * os códigos correspondentes.
+     */
     private void gerarRepresentacaoHuffman(){
         
         StringBuilder sb = new StringBuilder();
