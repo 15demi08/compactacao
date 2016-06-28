@@ -188,7 +188,13 @@ public class Vector<T> implements interfaces.Iterable<T> {
     }
 
     public Vector<T> clonar() {
-        return new Vector<>((T[]) data);
+        
+        Vector<T> copia = new Vector<>();
+        
+        for( T item : this )
+            copia.append(item);
+        
+        return copia;
     }
     
     

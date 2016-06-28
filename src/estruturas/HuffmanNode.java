@@ -14,7 +14,7 @@ public class HuffmanNode implements Comparable<HuffmanNode>{
     private char value;
     private int numOccurrences;
     private boolean bit;
-    private HuffmanNode child0, child1, parent;
+    private HuffmanNode child0, child1, parent = null;
 
     public HuffmanNode(int numOccurrences, HuffmanNode child0, HuffmanNode child1) {
         this.numOccurrences = numOccurrences;

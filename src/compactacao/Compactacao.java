@@ -16,17 +16,25 @@ public class Compactacao {
      */
     public static void main(String[] args) {
 
-        String teste = "teste";
+        String entrada = Console.readLine("String para compactar: ");
+        //String entrada = "teste";
         
-        Console.println(toBinaryString(teste));
+        Console.println("Representação binária: " + toBinaryString(entrada));
         
-        Compressor c = new Compressor(teste);
+        Compressor c = new Compressor(entrada);
         
         c.compactar();
         
-        c.printTree();
+        String saida = c.getHuffmanString();
         
-        c.printCodigos();
+        Console.println("Representação Huffman: " + saida);
+        
+        Console.println( toBinaryString(entrada).length() );
+        Console.println( saida.length() );
+        
+        //double reducao = ( saida.length() / entrada.length() );
+        
+        //Console.println("Redução: " + reducao + "%");
 
 
     }

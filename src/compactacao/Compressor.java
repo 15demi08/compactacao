@@ -22,25 +22,9 @@ import utilidades.Sorting;
  */
 public class Compressor {
 
-    /**
-     * A String com o texto a ser compactado
-     */
-    private String dados;
-
-    /**
-     * Armazena o número de occurrences de cada caractere presente na String
-     * fornecida
-     */
-    private Vector<HuffmanNode> occurrences;
-
-    private Vector<HuffmanNode> leafList;
-    
+    private String dados, huffmanString;
+    private Vector<HuffmanNode> occurrences, leafList;
     private Hashtable<Character, String> codigos;
-
-    /**
-     * Arvore na qual serão armazenadas as occurrences dos caracteres, a fim de
-     * executar o Código de Huffman
-     */
     private HuffmanTree charTree;
 
     public Compressor(String dados) {
@@ -50,28 +34,6 @@ public class Compressor {
         this.codigos = new Hashtable<>();
     }
 
-    public void printTree() {
-        charTree.print();
-    }
-    
-    public void printCodigos(){
-        
-        for( char c : codigos ){
-            
-            Console.println( c + ": " + codigos.get(c) );
-            
-        }
-        
-    }
-
-    public String getDados() {
-        return dados;
-    }
-
-    public Vector<HuffmanNode> getOccurrences() {
-        return occurrences;
-    }
-
     public void compactar() {
 
         gerarOcorrencias();
@@ -79,7 +41,13 @@ public class Compressor {
         gerarArvoreHuffman();
         
         gerarCodigos();
+        
+        gerarRepresentacaoHuffman();
 
+    }
+
+    public String getHuffmanString() {
+        return huffmanString;
     }
 
     /**
@@ -179,10 +147,15 @@ public class Compressor {
             HuffmanNode tmp = node;
 
             while (tmp != null) {
+                
+                //Console.println(tmp.getValue());
 
                 sb.append(tmp.getBit() ? "1" : "0");
 
-                tmp = node.getParent();
+                if( tmp.getParent() == null )
+                    break;
+                else
+                    tmp = tmp.getParent();
 
             }
 
@@ -195,6 +168,36 @@ public class Compressor {
             }
 
         }
+    }
+    
+    private void gerarRepresentacaoHuffman(){
+        
+        StringBuilder sb = new StringBuilder();
+        
+        char[] chars = dados.toCharArray();
+        
+        for( char c : chars ){
+            
+            sb.append(codigos.get(c));
+            
+        }
+        
+        huffmanString = sb.toString();
+        
+    }
+    
+    public void printTree() {
+        charTree.print();
+    }
+    
+    public void printCodigos(){
+        
+        for( HuffmanNode hn : leafList ){
+            
+            Console.println( hn.getValue() + ": " + codigos.get(hn.getValue()) );
+            
+        }
+        
     }
 
 }
